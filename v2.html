@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ring4Fun — VLN-spec BMW E90 325i at the Nürburgring</title>
+<meta name="description" content="Rent a VLN V4-class BMW E90 325i for Touristenfahrten and trackdays at the Nürburgring. Road legal, race prepped, under 8 min BTG capable.">
+<meta property="og:title" content="Ring4Fun — Race the Green Hell">
+<meta property="og:image" content="assets/car-image-2.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800;900&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* pulled off the car itself */
+  --orange:#e8442a;      /* body */
+  --orange-hot:#ff5c2e;  /* hot edge */
+  --ember:#ff8a3d;       /* highlight */
+  --tarmac:#0a0b0c;
+  --carbon:#141618;
+  --carbon-2:#1d2023;
+  --smoke:#8f959b;
+  --paper:#f4f5f6;
+  --adac:#ffd400;        /* ADAC windscreen banner yellow */
+  --line:rgba(255,255,255,.09);
+  --r:2px;
+  --display:'Archivo Expanded','Archivo',system-ui,sans-serif;
+  --body:'Archivo',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+body{background:var(--tarmac);color:var(--paper);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--adac);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ember);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--orange)}
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:.98;text-transform:uppercase}
+h2{font-size:clamp(30px,4.6vw,54px);margin:8px 0 8px}
+section{padding:104px 0;position:relative}
+.sub{color:var(--smoke);max-width:62ch;margin-bottom:44px}
+
+/* ===== signature: kerb rule ===== */
+.kerb{height:6px;background:repeating-linear-gradient(90deg,var(--orange) 0 22px,var(--paper) 22px 44px)}
+.kerb.thin{height:3px}
+
+/* ===== ticker ===== */
+.ticker{position:fixed;top:0;left:0;right:0;z-index:60;background:var(--adac);color:#0a0b0c;height:26px;display:flex;align-items:center;overflow:hidden;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.ticker div{display:flex;gap:36px;white-space:nowrap;padding-left:36px;animation:slide 42s linear infinite}
+.ticker span::after{content:"◆";margin-left:36px;opacity:.45}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+header{position:fixed;top:26px;left:0;right:0;z-index:50;background:rgba(10,11,12,.86);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:70px}
+.logo{font-family:var(--display);font-weight:900;font-size:20px;letter-spacing:-.04em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:14px}
+.stripe{width:4px;height:24px;background:var(--orange);box-shadow:7px 0 0 var(--paper),14px 0 0 var(--orange)}
+.logo span{margin-left:18px}
+.nav ul{display:flex;gap:24px;list-style:none;margin-left:auto;font-size:12.5px;font-weight:600;letter-spacing:.03em}
+.nav ul a{text-decoration:none;color:var(--smoke);transition:color .2s;position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:2px;background:var(--orange);transition:right .25s}
+.nav ul a:hover{color:var(--paper)}
+.nav ul a:hover::after{right:0}
+.btn{display:inline-block;border:0;cursor:pointer;font-family:var(--body);font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:13px 22px;border-radius:var(--r);text-decoration:none;transition:transform .15s,box-shadow .2s,background .2s;position:relative;overflow:hidden}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);background:var(--orange-hot);box-shadow:0 8px 30px rgba(232,68,42,.5)}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--paper)}
+.btn-ghost:hover{border-color:var(--paper);transform:translateY(-2px)}
+.nav .btn{animation:pulse 2.8s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,68,42,.5)}70%{box-shadow:0 0 0 13px rgba(232,68,42,0)}}
+.burger{display:none;margin-left:auto;background:none;border:0;color:var(--paper);font-size:22px;cursor:pointer}
+@media(max-width:920px){
+  .nav ul{position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--carbon);padding:20px 24px;gap:16px;display:none;border-bottom:1px solid var(--line)}
+  .nav ul.open{display:flex}
+  .nav>.btn{display:none}
+  .burger{display:block}
+}
+
+/* ===== hero ===== */
+.hero{padding:150px 0 0;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(90% 70% at 70% 40%,rgba(232,68,42,.22),transparent 60%),
+  radial-gradient(70% 60% at 5% 90%,rgba(255,138,61,.10),transparent 60%);pointer-events:none;z-index:0}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr .82fr;gap:48px;align-items:center}
+@media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:32px}}
+h1{font-size:clamp(40px,7vw,84px);font-weight:900}
+h1 em{font-style:normal;color:var(--orange);position:relative;text-shadow:0 0 60px rgba(232,68,42,.55)}
+.hero .lead{color:var(--smoke);font-size:17px;margin:22px 0 30px;max-width:50ch}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:36px}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:7px 11px;color:var(--smoke);background:rgba(255,255,255,.02)}
+.badge b{color:var(--ember);font-weight:700}
+/* timing tower */
+.timer{border:1px solid var(--line);background:linear-gradient(180deg,var(--carbon),rgba(10,11,12,.6));position:relative}
+.timer::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange)}
+.timer-in{padding:24px}
+.timer-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--line);padding-bottom:12px}
+.live{color:var(--orange);display:flex;align-items:center;gap:6px}
+.live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange);animation:blink 1.1s infinite}
+@keyframes blink{50%{opacity:.15}}
+.timer-big{font-family:var(--mono);font-weight:700;font-size:clamp(42px,7vw,64px);letter-spacing:-.05em;margin:18px 0 2px;font-variant-numeric:tabular-nums;transition:color .3s}
+.timer-lbl{font-family:var(--mono);font-size:10.5px;color:var(--smoke);letter-spacing:.14em;text-transform:uppercase}
+.sectors{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:22px;border-top:1px solid var(--line)}
+.sector{background:var(--carbon);padding:13px}
+.sector span{display:block;font-family:var(--mono);font-size:9.5px;color:var(--smoke);letter-spacing:.14em;margin-bottom:3px}
+.sector b{font-family:var(--mono);font-size:16px;color:var(--ember)}
+/* hero plate */
+.plate{margin-top:66px;position:relative;z-index:1}
+.plate figure{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--carbon)}
+.plate img{width:100%;height:clamp(280px,52vw,600px);object-fit:cover;object-position:center 62%}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,.55) 0%,transparent 22%,transparent 62%,rgba(10,11,12,.92) 100%);pointer-events:none}
+.plate figcaption{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 24px 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke);max-width:1200px;margin:0 auto}
+.plate figcaption b{color:var(--paper)}
+
+/* ===== specs ===== */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:26px}
+.tab{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1px solid var(--line);color:var(--smoke);padding:9px 15px;cursor:pointer;transition:.18s}
+.tab:hover{border-color:var(--smoke);color:var(--paper)}
+.tab.on{background:var(--orange);color:#fff;border-color:var(--orange);font-weight:700}
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.spec{background:var(--carbon);padding:20px;position:relative;transition:background .2s}
+.spec:hover{background:var(--carbon-2)}
+.spec dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke);margin-bottom:7px}
+.spec dd{font-family:var(--display);font-size:17px;font-weight:700}
+.spec.hl{background:linear-gradient(160deg,rgba(232,68,42,.16),var(--carbon))}
+.spec.hl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--orange)}
+.spec.hl::after{content:"UPGRADE";position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--ember)}
+.quote{border-left:2px solid var(--orange);padding:8px 0 8px 28px;margin-top:52px;max-width:78ch;color:#c9ced2;font-size:15.5px}
+.quote p+p{margin-top:15px}
+.quote strong{color:var(--ember);font-weight:700}
+
+/* ===== calculator ===== */
+.calc{display:grid;grid-template-columns:1fr 370px;gap:32px;align-items:start}
+@media(max-width:920px){.calc{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);background:var(--carbon);padding:24px;margin-bottom:14px}
+.panel h3{font-size:10.5px;letter-spacing:.18em;margin-bottom:16px;color:var(--smoke);font-family:var(--mono);font-weight:400;text-transform:uppercase}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.seg button{background:var(--carbon-2);border:0;color:var(--smoke);padding:14px;font-family:var(--body);font-weight:700;font-size:13px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;transition:.18s}
+.seg button.on{background:var(--orange);color:#fff}
+.opts{display:grid;gap:9px}
+.opt{display:flex;align-items:center;gap:14px;border:1px solid var(--line);padding:14px 16px;cursor:pointer;background:var(--carbon-2);transition:.15s}
+.opt:hover{border-color:var(--smoke)}
+.opt.on{border-color:var(--orange);background:rgba(232,68,42,.10);box-shadow:inset 3px 0 0 var(--orange)}
+.opt input{accent-color:var(--orange);width:16px;height:16px;flex:none}
+.opt .t{font-weight:700}
+.opt .d{font-size:12px;color:var(--smoke)}
+.opt .p{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--ember);text-align:right;white-space:nowrap}
+.opt .p s{color:var(--smoke);opacity:.65;display:block;font-size:10.5px}
+.row{display:flex;align-items:center;gap:14px}
+.stepper{display:flex;align-items:center;border:1px solid var(--line)}
+.stepper button{width:40px;height:40px;background:var(--carbon-2);border:0;color:var(--paper);font-size:18px;cursor:pointer;transition:.15s}
+.stepper button:hover{background:var(--orange)}
+.stepper output{width:54px;text-align:center;font-family:var(--mono);font-weight:700}
+.switch{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.switch input{width:17px;height:17px;accent-color:var(--orange);margin-top:3px;flex:none}
+.risk{margin-top:18px}
+.risk-bar{height:8px;background:var(--carbon-2);border:1px solid var(--line);overflow:hidden}
+.risk-fill{height:100%;background:linear-gradient(90deg,var(--ember),var(--orange));transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.risk-lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--smoke);margin-top:9px}
+.risk-lbl b{color:var(--paper)}
+/* pit board */
+.ticket{position:sticky;top:118px;border:1px solid var(--line);background:linear-gradient(180deg,var(--carbon),var(--tarmac))}
+.ticket>.kerb{height:4px}
+.ticket-top{padding:16px 22px;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;align-items:center}
+.ticket-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--smoke);text-transform:uppercase}
+.ticket-top span:last-child{color:var(--adac)}
+.ticket-body{padding:20px 22px 22px}
+.li{display:flex;justify-content:space-between;gap:14px;font-size:12.5px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:var(--mono)}
+.li span:first-child{color:var(--smoke)}
+.li.save span:last-child{color:var(--ember);font-weight:700}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 8px}
+.total b{font-family:var(--mono);font-size:36px;font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.total span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--smoke);text-transform:uppercase}
+.ticket .btn{width:100%;text-align:center;margin-top:10px}
+.note{font-size:11px;color:var(--smoke);margin-top:13px;line-height:1.55}
+
+/* ===== gallery ===== */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gal figure{position:relative;overflow:hidden;background:var(--carbon-2);border:1px solid var(--line);cursor:zoom-in;aspect-ratio:4/3}
+.gal figure:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .4s;filter:saturate(1.05)}
+.gal figure:hover img{transform:scale(1.07);filter:saturate(1.25)}
+.gal figure::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(232,68,42,.28),transparent 55%);opacity:0;transition:opacity .4s}
+.gal figure:hover::after{opacity:1}
+.gal figcaption{position:absolute;left:0;bottom:0;right:0;z-index:2;padding:12px 13px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(transparent,rgba(0,0,0,.88));color:var(--paper);display:flex;justify-content:space-between;gap:8px}
+.gal figcaption i{font-style:normal;color:var(--ember)}
+@media(max-width:760px){.gal{grid-template-columns:repeat(2,1fr)}.gal figure:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:16/10}}
+dialog#lightbox{border:0;padding:0;background:transparent;max-width:94vw;overflow:visible}
+dialog#lightbox::backdrop{background:rgba(6,7,8,.95)}
+dialog#lightbox img{max-height:86vh;width:auto;border:1px solid var(--line)}
+dialog#lightbox button{position:absolute;top:-40px;right:0;background:none;border:0;color:var(--paper);font-size:24px;cursor:pointer;font-family:var(--mono)}
+
+/* ===== booking ===== */
+.steps{display:flex;border:1px solid var(--line);margin-bottom:22px;overflow:hidden}
+.step-tab{flex:1;padding:14px 8px;text-align:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);background:var(--carbon);border-right:1px solid var(--line);transition:.25s}
+.step-tab:last-child{border-right:0}
+.step-tab.on{background:var(--orange);color:#fff;font-weight:700}
+.step-tab.done{color:var(--ember)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.fields{grid-template-columns:1fr}}
+label.f{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke)}
+label.f.full{grid-column:1/-1}
+input,select,textarea{background:var(--carbon-2);border:1px solid var(--line);color:var(--paper);padding:12px;font-family:var(--body);font-size:15px;border-radius:var(--r);width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--orange);outline:none}
+.step{display:none}
+.step.on{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}}
+.nav-btns{display:flex;gap:10px;margin-top:22px}
+.receipt{font-family:var(--mono);font-size:12.5px;background:var(--carbon-2);border:1px solid var(--line);border-left:2px solid var(--orange);padding:18px;white-space:pre-wrap;color:#c9ced2;max-height:300px;overflow:auto}
+.err{font-size:12px;margin-top:10px;min-height:16px;color:var(--orange-hot)}
+
+/* ===== faq ===== */
+details{border-bottom:1px solid var(--line);padding:19px 0}
+summary{cursor:pointer;font-family:var(--display);font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px;text-transform:none;transition:color .2s}
+summary:hover{color:var(--ember)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--orange);font-family:var(--mono);font-size:20px;transition:transform .2s}
+details[open] summary::after{content:"–"}
+details p{color:var(--smoke);margin-top:12px;max-width:76ch}
+
+footer{padding:40px 0;color:var(--smoke);font-size:12.5px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer b{color:var(--paper)}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true"><div id="tick"></div></div>
+
+<header>
+  <nav class="wrap nav">
+    <a class="logo" href="#top"><span class="stripe"></span><span>Ring4Fun</span></a>
+    <button class="burger" id="burger" aria-label="Open menu">☰</button>
+    <ul id="menu">
+      <li><a href="#specs">Specs</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#booking">Booking</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn btn-primary" href="#booking">Book your laps</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Nürburgring Nordschleife · VLN V4 / RS4 class</p>
+      <h1>Race the<br><em>Green Hell</em></h1>
+      <p class="lead">A genuine VLN endurance-spec BMW E90 325i — start number 459, the same car, the same setup it races with. Still fully road legal for Touristenfahrten. Rear-wheel drive, naturally aspirated straight-six, KW Competition suspension.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#pricing">Check availability</a>
+        <a class="btn btn-ghost" href="#specs">See the car</a>
+      </div>
+      <div class="badges">
+        <span class="badge"><b>KW</b> Competition equipped</span>
+        <span class="badge"><b>100%</b> Road legal</span>
+        <span class="badge"><b>FIA</b> Approved safety</span>
+      </div>
+    </div>
+    <aside class="timer">
+      <div class="timer-in">
+        <div class="timer-head"><span>Bridge → Gantry</span><span class="live">Reference lap</span></div>
+        <div class="timer-big" id="btg">8:00.00</div>
+        <div class="timer-lbl">Capable in experienced hands · 20.8 km</div>
+      </div>
+      <div class="sectors">
+        <div class="sector"><span>DRIVE</span><b>RWD</b></div>
+        <div class="sector"><span>POWER</span><b>225 hp</b></div>
+        <div class="sector"><span>MASS</span><b>1350 kg</b></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="plate">
+    <div class="kerb"></div>
+    <figure>
+      <img src="assets/car-image-1.jpg" alt="BMW E90 325i race car, start number 459, in profile in the workshop" fetchpriority="high">
+      <figcaption class="wrap">
+        <span><b>#459</b> · E90 325i · VLN V4</span>
+        <span>Yokohama · Hankook · KW · Pagid</span>
+      </figcaption>
+    </figure>
+    <div class="kerb"></div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section id="specs">
+  <div class="wrap reveal">
+    <p class="eyebrow">Section 01 — The machine</p>
+    <h2>VLN race-prepped<br>E90 325i</h2>
+    <p class="sub">Built and maintained to compete. Nothing here is a cosmetic upgrade.</p>
+
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-t="all">All</button>
+      <button class="tab" data-t="drivetrain">Drivetrain</button>
+      <button class="tab" data-t="chassis">Chassis</button>
+      <button class="tab" data-t="safety">Safety</button>
+      <button class="tab" data-t="data">Data</button>
+    </div>
+    <dl class="spec-grid" id="specGrid"></dl>
+
+    <blockquote class="quote">
+      <p>“The BMW E90 325i is one of the most popular racing cars in the VLN endurance championship on the Nürburgring. We love the recipe: RWD + a glorious naturally aspirated inline-six + incredible handling balance — it doesn't try to kill you on every corner. It's a machine you can push confidently to the limits while having serious fun.</p>
+      <p>This is your chance to experience a true race car with the exact setup used in competitive racing. Under the hands of an experienced driver, this car can run BTG times of <strong>under 8 minutes</strong> — fast enough to overtake much more powerful street cars. It's all about cornering speed, not just straight-line numbers.”</p>
+    </blockquote>
+  </div>
+</section>
+
+<div class="kerb thin"></div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Section 02 — Build your session</p>
+      <h2>Pricing calculator</h2>
+      <p class="sub">Track entry fees and the first tank of fuel are included in every lap package. Extra laps are settled when you bring the car back.</p>
+    </div>
+
+    <div class="calc">
+      <div>
+        <div class="panel">
+          <h3>When are you driving?</h3>
+          <div class="seg" id="daySeg">
+            <button class="on" data-day="week">Monday–Thursday</button>
+            <button data-day="weekend">Weekend (Fri–Sun)</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Package</h3>
+          <div class="opts" id="pkgOpts"></div>
+          <div class="row" style="margin-top:16px">
+            <span style="font-size:13px;color:var(--smoke)">Extra laps <b id="extraPrice" style="color:var(--ember);font-family:var(--mono)"></b></span>
+            <div class="stepper" style="margin-left:auto">
+              <button type="button" id="minus" aria-label="One less extra lap">−</button>
+              <output id="extraOut">0</output>
+              <button type="button" id="plus" aria-label="One more extra lap">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Insurance excess</h3>
+          <div class="opts" id="insOpts"></div>
+          <div class="risk">
+            <div class="risk-bar"><div class="risk-fill" id="riskFill" style="width:100%"></div></div>
+            <div class="risk-lbl"><span>Your maximum liability</span><b id="riskVal">€14,000</b></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Coaching</h3>
+          <label class="switch"><input type="checkbox" id="instr">
+            <span><b>Professional co-pilot / instructor</b><br><span style="font-size:12px;color:var(--smoke)">€49 per lap — the fastest way to learn 154 corners.</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="kerb"></div>
+        <div class="ticket-top"><span>Pit board</span><span id="ticketDay">Mon–Thu</span></div>
+        <div class="ticket-body">
+          <div id="lines"></div>
+          <div class="total"><span>Total</span><b id="total">€0</b></div>
+          <a class="btn btn-primary" href="#booking" id="toBooking">Continue to booking</a>
+          <p class="note">Estimate only — no payment is taken here. We confirm availability by WhatsApp or email before anything is charged.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="kerb thin"></div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Section 03 — The car</p>
+      <h2>Gallery</h2>
+      <p class="sub">Shot at the Nordschleife and in the workshop. Click any frame to enlarge.</p>
+    </div>
+    <div class="gal" id="gal"></div>
+  </div>
+</section>
+
+<div class="kerb thin"></div>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Section 04 — Reserve</p>
+      <h2>Request your laps</h2>
+      <p class="sub">Four steps, no account, no card. We reply with confirmation and a meeting point.</p>
+    </div>
+
+    <div style="max-width:780px">
+      <div class="steps" id="steps">
+        <div class="step-tab on">1 · Driver</div>
+        <div class="step-tab">2 · Session</div>
+        <div class="step-tab">3 · Date</div>
+        <div class="step-tab">4 · Send</div>
+      </div>
+
+      <div class="step on" data-s="0">
+        <div class="fields">
+          <label class="f">Full name<input id="f_name" autocomplete="name"></label>
+          <label class="f">Age<input id="f_age" type="number" min="16" max="99"></label>
+          <label class="f">Country<input id="f_country" autocomplete="country-name"></label>
+          <label class="f">Driver's licence<select id="f_lic">
+            <option>EU licence</option><option>International licence</option><option>UK licence</option><option>Other / not sure</option>
+          </select></label>
+          <label class="f full">Email<input id="f_email" type="email" autocomplete="email"></label>
+        </div>
+      </div>
+
+      <div class="step" data-s="1">
+        <div class="receipt" id="sessionSummary"></div>
+        <p class="note">Pulled straight from the calculator. Scroll up to change anything.</p>
+      </div>
+
+      <div class="step" data-s="2">
+        <div class="fields">
+          <label class="f">Preferred date<input id="f_date" type="date"></label>
+          <label class="f">Preferred time<input id="f_time" type="time" value="10:00"></label>
+          <label class="f full">Anything we should know?<textarea id="f_notes" rows="3" placeholder="First time at the Ring, arriving from Cologne, etc."></textarea></label>
+        </div>
+      </div>
+
+      <div class="step" data-s="3">
+        <div class="receipt" id="finalReceipt"></div>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+          <button class="btn btn-primary" id="waBtn">Send request via WhatsApp</button>
+          <button class="btn btn-ghost" id="mailBtn">Send request via email</button>
+        </div>
+      </div>
+
+      <p class="err" id="err"></p>
+      <div class="nav-btns">
+        <button class="btn btn-ghost" id="prev">Back</button>
+        <button class="btn btn-primary" id="next">Next step</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="kerb thin"></div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap" style="max-width:940px">
+    <div class="reveal">
+      <p class="eyebrow">Section 05 — Before you come</p>
+      <h2>Questions</h2>
+    </div>
+    <div style="margin-top:28px">
+      <details open><summary>What's included in the price?</summary><p>Track entry fees for your booked laps, the first tank of fuel, and the fully prepared car with its race setup. Extra laps taken on the day are added when you return the car.</p></details>
+      <details><summary>What happens if I crash, or damage the track?</summary><p>Basic insurance is included and caps your liability at €14,000 excess. Extra insurance (+€99) brings that down to €10,000. Premium insurance (+€199) brings it to €7,000 and adds full cover for Armco barrier damage and track towing — the two costs that hurt most at the Nürburgring.</p></details>
+      <details><summary>Can I drive during public Touristenfahrten?</summary><p>Yes. Despite being a 100% VLN-class racing car, it's fully road legal, so you can run it during public Touristenfahrten sessions as well as on trackdays.</p></details>
+      <details><summary>What are the driver requirements?</summary><p>Minimum age 21, plus a valid EU or international driver's licence. No racing licence needed. If it's your first time on the Nordschleife, book the co-pilot — €49 per lap and worth every cent.</p></details>
+      <details><summary>Do you run trackdays?</summary><p>Yes — a flat €349 per day including 5 laps, with extra laps at €70 each.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="kerb"></div>
+<footer class="wrap">
+  <span><b>Ring4Fun</b> · VLN-spec BMW E90 325i · Nürburg, Germany</span>
+  <span style="font-family:var(--mono)">Prices in EUR · Estimates are not a contract</span>
+</footer>
+
+<dialog id="lightbox"><button aria-label="Close">✕</button><img alt=""></dialog>
+
+<script>
+/* ============ CONFIG — edit these three lines ============ */
+const CONFIG = {
+  whatsapp: "4915100000000",              // your number, digits only, incl. country code
+  email:    "booking@ring4fun.example",   // fallback mailto address
+  emailjs:  { publicKey:"", serviceId:"", templateId:"" } // fill in to use EmailJS instead of mailto
+};
+
+/* ============ DATA ============ */
+const PKGS = [
+  {id:"2",  name:"2 Laps",  d:"All-inclusive", laps:2,  week:[169,269], weekend:[199,309]},
+  {id:"5",  name:"5 Laps",  d:"All-inclusive", laps:5,  week:[349,599], weekend:[449,724]},
+  {id:"10", name:"10 Laps", d:"All-inclusive", laps:10, week:[699,1199],weekend:[899,1449]},
+  {id:"td", name:"Trackday",d:"Flat rate · 5 laps included", laps:5, week:[349,349], weekend:[349,349]}
+];
+const EXTRA = {week:[70,120], weekend:[90,145]}, TD_EXTRA = 70;
+const INS = [
+  {id:"basic", name:"Basic",   d:"Included",                          price:0,   excess:14000},
+  {id:"extra", name:"Extra",   d:"Lower excess",                      price:99,  excess:10000},
+  {id:"prem",  name:"Premium", d:"Covers Armco damage & track towing",price:199, excess:7000}
+];
+const SPECS = [
+  {c:"drivetrain",k:"Engine",v:"2.5L NA inline-6"},
+  {c:"drivetrain",k:"Power",v:"225 hp"},
+  {c:"drivetrain",k:"Gearbox",v:"6-speed manual"},
+  {c:"drivetrain",k:"Layout",v:"Rear-wheel drive"},
+  {c:"chassis",k:"Suspension",v:"KW Competition",hl:1},
+  {c:"chassis",k:"Weight",v:"1350 kg"},
+  {c:"chassis",k:"Tires",v:"Pirelli high-performance"},
+  {c:"chassis",k:"Brakes",v:"Race-spec pads"},
+  {c:"chassis",k:"Wheels",v:"Lightweight Motec"},
+  {c:"chassis",k:"Electronics",v:"2-level DTC + ABS"},
+  {c:"safety",k:"Roll cage",v:"FIA-homologated full cage"},
+  {c:"safety",k:"Seats",v:"Sparco buckets ×2"},
+  {c:"safety",k:"Harnesses",v:"Schroth"},
+  {c:"safety",k:"Fire system",v:"Onboard extinguisher"},
+  {c:"data",k:"Logger",v:"AIM data logger + dash"},
+  {c:"data",k:"Camera",v:"AIM SmartyCam HD"},
+  {c:"data",k:"Class",v:"VLN V4 / RS4"},
+  {c:"data",k:"Build",v:"2019 prep"}
+];
+const eur = n => "€" + n.toLocaleString("en-US");
+
+/* ============ TICKER ============ */
+const TICK = ["Nordschleife · 20.8 km · 154 corners","Start №459","VLN V4 / RS4 class","KW Competition suspension","Under 8 min BTG capable","225 hp · 1350 kg · RWD","Track fee + first tank included","Fully road legal"];
+document.getElementById("tick").innerHTML = (TICK.map(t=>`<span>${t}</span>`).join("")).repeat(2);
+
+/* ============ SPEC TABS ============ */
+const grid = document.getElementById("specGrid");
+const drawSpecs = (f="all") => grid.innerHTML = SPECS.filter(s=>f==="all"||s.c===f)
+  .map(s=>`<div class="spec${s.hl?" hl":""}"><dt>${s.k}</dt><dd>${s.v}</dd></div>`).join("");
+drawSpecs();
+document.getElementById("tabs").onclick = e => {
+  const b = e.target.closest(".tab"); if(!b) return;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t===b));
+  drawSpecs(b.dataset.t);
+};
+
+/* ============ GALLERY ============ */
+const SHOTS = [
+  {f:"car-image-2.jpg", c:"Nordschleife · Touristenfahrten", n:"452"},
+  {f:"car-image-3.jpg", c:"Grid · ADAC event",               n:"459"},
+  {f:"car-image-1.jpg", c:"Workshop · profile",              n:"459"},
+  {f:"car-image-4.jpg", c:"Transporter · rear quarter",      n:"459"}
+];
+document.getElementById("gal").innerHTML = SHOTS.map(s=>
+  `<figure><img src="assets/${s.f}" alt="${s.c}" loading="lazy">
+   <figcaption><span>${s.c}</span><i>№${s.n}</i></figcaption></figure>`).join("");
+const lb = document.getElementById("lightbox");
+document.getElementById("gal").onclick = e => {
+  const img = e.target.closest("img"); if(!img) return;
+  const t = lb.querySelector("img"); t.src = img.src; t.alt = img.alt; lb.showModal();
+};
+lb.querySelector("button").onclick = ()=>lb.close();
+lb.onclick = e => { if(e.target===lb) lb.close(); };
+
+/* ============ CALCULATOR ============ */
+const S = {day:"week", pkg:"5", extra:0, ins:"basic", instr:false};
+
+document.getElementById("pkgOpts").innerHTML = PKGS.map(p=>
+  `<label class="opt" data-pkg="${p.id}"><input type="radio" name="pkg" value="${p.id}"${p.id===S.pkg?" checked":""}>
+   <span><span class="t">${p.name}</span><br><span class="d">${p.d}</span></span>
+   <span class="p" data-price="${p.id}"></span></label>`).join("");
+document.getElementById("insOpts").innerHTML = INS.map(i=>
+  `<label class="opt" data-ins="${i.id}"><input type="radio" name="ins" value="${i.id}"${i.id===S.ins?" checked":""}>
+   <span><span class="t">${i.name}</span><br><span class="d">${i.d}</span></span>
+   <span class="p">${i.price?"+"+eur(i.price):"Included"}<s>${eur(i.excess)} excess</s></span></label>`).join("");
+
+document.getElementById("daySeg").onclick = e => {
+  const b = e.target.closest("button"); if(!b) return;
+  S.day = b.dataset.day;
+  document.querySelectorAll("#daySeg button").forEach(x=>x.classList.toggle("on",x===b));
+  render();
+};
+document.getElementById("pkgOpts").onchange = e => { S.pkg = e.target.value; render(); };
+document.getElementById("insOpts").onchange = e => { S.ins = e.target.value; render(); };
+document.getElementById("instr").onchange   = e => { S.instr = e.target.checked; render(); };
+document.getElementById("plus").onclick  = ()=>{ S.extra++; render(); };
+document.getElementById("minus").onclick = ()=>{ S.extra = Math.max(0,S.extra-1); render(); };
+
+function quote(){
+  const p = PKGS.find(x=>x.id===S.pkg);
+  const [base, was] = p[S.day];
+  const isTD = p.id==="td";
+  const exRate = isTD ? TD_EXTRA : EXTRA[S.day][0];
+  const exWas  = isTD ? TD_EXTRA : EXTRA[S.day][1];
+  const laps = p.laps + S.extra;
+  const ins = INS.find(i=>i.id===S.ins);
+  const extras = S.extra * exRate;
+  const coach = S.instr ? laps * 49 : 0;
+  const saved = (was-base) + S.extra*(exWas-exRate);
+  return {p,base,was,laps,ins,extras,exRate,coach,saved,total: base+extras+ins.price+coach};
+}
+function render(){
+  const q = quote(), isTD = q.p.id==="td";
+  PKGS.forEach(p=>{
+    const [b,w] = p[S.day];
+    document.querySelector(`[data-price="${p.id}"]`).innerHTML = eur(b) + (w>b?`<s>${eur(w)}</s>`:"");
+  });
+  document.querySelectorAll("[data-pkg]").forEach(l=>l.classList.toggle("on",l.dataset.pkg===S.pkg));
+  document.querySelectorAll("[data-ins]").forEach(l=>l.classList.toggle("on",l.dataset.ins===S.ins));
+  document.getElementById("extraOut").value = S.extra;
+  document.getElementById("extraPrice").textContent = eur(q.exRate) + "/lap";
+  document.getElementById("riskVal").textContent = eur(q.ins.excess);
+  document.getElementById("riskFill").style.width = (q.ins.excess/14000*100) + "%";
+  document.getElementById("ticketDay").textContent = S.day==="week" ? "Mon–Thu" : "Fri–Sun";
+  const L = [
+    [`${q.p.name}${isTD?"":" · all-inclusive"}`, eur(q.base)],
+    ...(S.extra ? [[`${S.extra} extra lap${S.extra>1?"s":""} × ${eur(q.exRate)}`, eur(q.extras)]] : []),
+    [`${q.ins.name} insurance · ${eur(q.ins.excess)} excess`, q.ins.price?eur(q.ins.price):"—"],
+    ...(S.instr ? [[`Instructor × ${q.laps} laps`, eur(q.coach)]] : [])
+  ];
+  document.getElementById("lines").innerHTML =
+    L.map(([a,b])=>`<div class="li"><span>${a}</span><span>${b}</span></div>`).join("") +
+    (q.saved>0?`<div class="li save"><span>You save vs. list</span><span>−${eur(q.saved)}</span></div>`:"");
+  document.getElementById("total").textContent = eur(q.total);
+  document.getElementById("sessionSummary").textContent = summary(q);
+}
+const summary = q => [
+  `Package        ${q.p.name} (${q.p.d})`,
+  `Day            ${S.day==="week"?"Monday–Thursday":"Weekend (Fri–Sun)"}`,
+  `Laps           ${q.laps}${S.extra?`  (${q.p.laps} + ${S.extra} extra)`:""}`,
+  `Insurance      ${q.ins.name} — ${eur(q.ins.excess)} max excess`,
+  `Instructor     ${S.instr?`Yes — ${eur(q.coach)}`:"No"}`,
+  `------------------------------------`,
+  `TOTAL          ${eur(q.total)}`
+].join("\n");
+render();
+
+/* ============ BOOKING STEPPER ============ */
+let step = 0;
+const tabs  = [...document.querySelectorAll(".step-tab")];
+const panes = [...document.querySelectorAll(".step")];
+const err   = document.getElementById("err");
+function show(){
+  panes.forEach(p=>p.classList.toggle("on", +p.dataset.s===step));
+  tabs.forEach((t,i)=>{ t.classList.toggle("on",i===step); t.classList.toggle("done",i<step); });
+  document.getElementById("prev").style.visibility = step ? "visible" : "hidden";
+  document.getElementById("next").textContent = step===2 ? "Review request" : "Next step";
+  document.getElementById("next").style.display = step===3 ? "none" : "";
+  if(step===1) render();
+  if(step===3) document.getElementById("finalReceipt").textContent = receipt();
+}
+const data = () => ({
+  name:f_name.value.trim(), age:f_age.value.trim(), country:f_country.value.trim(),
+  lic:f_lic.value, email:f_email.value.trim(),
+  date:f_date.value, time:f_time.value, notes:f_notes.value.trim()
+});
+function validate(){
+  err.style.color = "var(--orange-hot)"; err.textContent = "";
+  const d = data();
+  if(step===0){
+    if(!d.name)   return err.textContent="Enter the driver's name.", false;
+    if(!d.age)    return err.textContent="Enter the driver's age.", false;
+    if(+d.age<21) return err.textContent="Minimum driver age is 21.", false;
+    if(!/^\S+@\S+\.\S+$/.test(d.email)) return err.textContent="Enter a valid email address.", false;
+  }
+  if(step===2 && !d.date) return err.textContent="Pick a preferred date.", false;
+  return true;
+}
+function receipt(){
+  const d = data(), q = quote();
+  return [
+    `RING4FUN — BOOKING REQUEST`,
+    `====================================`,
+    `Driver         ${d.name}, age ${d.age}`,
+    `Licence        ${d.lic}${d.country?` (${d.country})`:""}`,
+    `Email          ${d.email}`,
+    `Requested      ${d.date} at ${d.time}`,
+    `------------------------------------`,
+    summary(q),
+    ...(d.notes?[`------------------------------------`,`Notes          ${d.notes}`]:[]),
+    `====================================`,
+    `Estimate only — awaiting availability.`
+  ].join("\n");
+}
+document.getElementById("next").onclick = ()=>{ if(validate() && step<3){ step++; show(); } };
+document.getElementById("prev").onclick = ()=>{ if(step>0){ step--; show(); } };
+document.getElementById("toBooking").onclick = ()=>{ step=0; show(); };
+show();
+
+/* ============ SUBMISSION ============ */
+document.getElementById("waBtn").onclick = ()=>{
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("```\n"+receipt()+"\n```")}`, "_blank", "noopener");
+};
+document.getElementById("mailBtn").onclick = async ()=>{
+  const d = data(), body = receipt();
+  const {publicKey, serviceId, templateId} = CONFIG.emailjs;
+  if(publicKey && serviceId && templateId){
+    try{
+      const r = await fetch("https://api.emailjs.com/api/v1.0/email/send",{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({service_id:serviceId, template_id:templateId, user_id:publicKey,
+          template_params:{from_name:d.name, reply_to:d.email, message:body}})
+      });
+      if(!r.ok) throw new Error(await r.text());
+      err.style.color = "var(--ember)";
+      err.textContent = "Request sent. We'll reply to " + d.email + " within 24 hours.";
+      return;
+    }catch(e){ err.style.color="var(--orange-hot)"; err.textContent="Email service didn't respond — opening your mail app instead."; }
+  }
+  location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Booking request — "+d.name)}&body=${encodeURIComponent(body)}`;
+};
+
+/* ============ MISC ============ */
+document.getElementById("burger").onclick = ()=>document.getElementById("menu").classList.toggle("open");
+document.getElementById("menu").onclick   = ()=>document.getElementById("menu").classList.remove("open");
+
+const io = new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting && e.target.classList.add("in")),{threshold:.15});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+(function(){
+  const el = document.getElementById("btg");
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches){ el.textContent="7:56.31"; return; }
+  let t = 8.6;
+  const id = setInterval(()=>{
+    t -= 0.05;
+    if(t<=7.94){ el.textContent="7:56.31"; el.style.color="var(--ember)"; clearInterval(id); return; }
+    const m = Math.floor(t);
+    el.textContent = `${m}:${((t-m)*60).toFixed(2).padStart(5,"0")}`;
+  },28);
+})();
+</script>
+</body>
+</html>
